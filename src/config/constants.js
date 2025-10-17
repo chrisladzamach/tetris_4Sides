@@ -49,6 +49,6 @@ export const COLORS = {
 
 export const GAME_CONFIG = {
   BORDER_SPAWN_INTERVAL: 2200,
-  AUDIO_VOLUME: 0.3
+  AUDIO_VOLUME: 0.1
   // AUDIO_PLAYBACK_RATE: 0.7
 }
