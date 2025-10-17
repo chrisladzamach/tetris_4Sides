@@ -1,4 +1,4 @@
-import { BOARD_WIDTH, BOARD_HEIGHT, COLORS } from '../config/constants.js'
+import { BOARD_WIDTH, BOARD_HEIGHT, COLORS, PIECE_COLORS } from '../config/constants.js'
 
 export class GameUI {
   constructor (canvas, scoreElement) {
@@ -33,7 +33,6 @@ export class GameUI {
     this.ctx.fillStyle = COLORS.BACKGROUND
     this.ctx.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT)
 
-    // Draw board blocks
     for (let y = 0; y < BOARD_HEIGHT; y++) {
       for (let x = 0; x < BOARD_WIDTH; x++) {
         if (board.grid[y][x] === 1) {
@@ -43,11 +42,11 @@ export class GameUI {
       }
     }
 
-    // Draw current piece
     for (let y = 0; y < piece.shape.length; y++) {
       for (let x = 0; x < piece.shape[y].length; x++) {
         if (piece.shape[y][x]) {
-          this.ctx.fillStyle = COLORS.PIECE
+          const color = PIECE_COLORS[piece.type]
+          this.ctx.fillStyle = color
           this.ctx.fillRect(piece.pos.x + x, piece.pos.y + y, 1, 1)
         }
       }

@@ -31,6 +31,16 @@ export const PIECES = {
   ]
 }
 
+export const PIECE_COLORS = {
+  O: '#FFFF00',
+  I: '#00FFFF',
+  T: '#800080',
+  S: '#00FF00',
+  Z: '#FF0000',
+  J: '#0000FF',
+  L: '#FF7F0F'
+}
+
 export const COLORS = {
   BACKGROUND: '#000',
   BOARD_BLOCK: '#333',

@@ -31,7 +31,6 @@ section {
   inset: 0;
   display: grid;
   place-content: center;
-  cursor: pointer;
 }
 
 p {
@@ -45,6 +44,7 @@ p {
   gap: 5px;
   transition: all 0.4s ease-in-out;
   overflow: hidden;
+  cursor: pointer;
 }
 
 p:hover {
