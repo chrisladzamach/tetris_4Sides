@@ -7,7 +7,6 @@ const scoreEl = document.querySelector('span')
 const BOARD_WIDTH = 60
 const BOARD_HEIGHT = 32
 
-
 let BOARD
 let BLOCK_SIZE
 
@@ -135,6 +134,26 @@ function solidifyPiece() {
   spawnNewPieceCentered()
 }
 
+let gameAudio = null;
+
+function startGameAudio() {
+  if (!gameAudio) {
+    gameAudio = new Audio("./tetris.mp3");
+    gameAudio.volume = 0.3;
+    gameAudio.playbackRate = 0.7;
+    gameAudio.loop = true;
+    gameAudio.play();
+  }
+}
+
+function stopGameAudio() {
+  if (gameAudio) {
+    gameAudio.pause();
+    gameAudio.currentTime = 0;
+    gameAudio = null;
+  }
+}
+
 function spawnNewPieceCentered() {
   const p = randomPiece()
   piece.type = p.type
@@ -145,6 +164,7 @@ function spawnNewPieceCentered() {
     BOARD = createMatrix(BOARD_HEIGHT, BOARD_WIDTH, 0)
     score = 0
     updateScore()
+    stopGameAudio()
   }
 }
 
@@ -165,12 +185,14 @@ function removeFullLinesIfAny() {
     for (let y = 0; y < BOARD_HEIGHT; y++) {
       if (BOARD[y][x] === 0) { full = false; break; }
     }
+
     if (full) {
       totalRemoved += BOARD_HEIGHT;
       for (let y = 0; y < BOARD_HEIGHT; y++) {
         BOARD[y].splice(x, 1);
         BOARD[y].push(0);
       }
+      
       x--;
     }
   }
@@ -191,6 +213,7 @@ function spawnSegmentsAtBorder(dir, attempts = 5) {
       const maxLen = 6
       const len = randomInt(1, Math.min(maxLen, BOARD_HEIGHT - 1))
       const start = randomInt(0, BOARD_HEIGHT - len)
+      
       let canPlace = true
       for (let y = start; y < start + len; y++) {
         if (BOARD[y][col] === 1) { canPlace = false; break }
@@ -202,15 +225,18 @@ function spawnSegmentsAtBorder(dir, attempts = 5) {
       if (onesCount + len >= BOARD_HEIGHT) continue
 
       for (let y = start; y < start + len; y++) BOARD[y][col] = 1
+
     } else {
       const row = dir === 'top' ? 0 : BOARD_HEIGHT - 1
       const maxLen = 8
       const len = randomInt(1, Math.min(maxLen, BOARD_WIDTH - 1))
       const start = randomInt(0, BOARD_WIDTH - len)
+      
       let canPlace = true
       for (let x = start; x < start + len; x++) {
         if (BOARD[row][x] === 1) { canPlace = false; break }
       }
+
       if (!canPlace) continue
 
       let onesCount = BOARD[row].reduce((s, v) => s + (v === 1 ? 1 : 0), 0)
@@ -323,4 +349,9 @@ function init() {
   raf()
 }
 
-init()
+const $section = document.querySelector('section')
+$section.addEventListener('click', () =>{
+  init()
+  $section.remove()
+    startGameAudio()
+})
